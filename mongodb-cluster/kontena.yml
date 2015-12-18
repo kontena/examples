@@ -1,4 +1,4 @@
-mongo:
+peer:
   image: mongo:3.0
   stateful: true
   command: --replSet kontena --smallfiles
@@ -13,11 +13,11 @@ mongo:
         name: rs_initiate
         instances: 1
         oneshot: true
-      - cmd: mongo --eval "printjson(rs.add('meetup-mongo-2'))"
+      - cmd: mongo --eval "printjson(rs.add('%{project}-peer-2'))"
         name: rs_add2
         instances: 1
         oneshot: true
-      - cmd: mongo --eval "printjson(rs.add('meetup-mongo-3'))"
+      - cmd: mongo --eval "printjson(rs.add('%{project}-peer-3'))"
         name: rs_add3
         instances: 1
         oneshot: true
