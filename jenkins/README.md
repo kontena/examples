@@ -15,6 +15,8 @@ http://jenkins-master.kontena.local:8080/
 $ kontena app deploy slave
 ```
 
+Jenkins slave includes docker, docker-compose and kontena cli binaries. It also has access to hosts docker socket.
+
 ## Scale Jenkins Slaves
 
 ```
