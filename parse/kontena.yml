@@ -3,8 +3,7 @@ mongodb:
   stateful: true
 
 server:
-  image: registry.kontena.local/parse-server:latest
-  build: .
+  image: kontena/parse-server:latest
   environment:
     - MONGO_URI=%{project}-mongodb.kontena.local/production
     - KONTENA_LB_INTERNAL_PORT=8080

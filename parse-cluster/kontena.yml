@@ -23,8 +23,7 @@ mongodb:
         oneshot: true
 
 server:
-  image: registry.kontena.local/parse-server:latest
-  build: .
+  image: kontena/parse-server:latest
   instances: 3
   environment:
     - MONGO_URI=%{project}-mongodb.kontena.local/production
