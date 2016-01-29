@@ -7,7 +7,7 @@ var app = express();
 // and the location to your Parse cloud code
 var api = new ParseServer({
   databaseURI: process.env.MONGO_URI,
-  cloud: '/usr/src/app/parse-server/cloud/main.js', // Provide an absolute path
+  cloud: '/usr/src/app/node_modules/parse-server/cloud/main.js', // Provide an absolute path
   appId: process.env.APP_ID,
   masterKey: process.env.MASTER_KEY,
   fileKey: process.env.FILE_KEY
