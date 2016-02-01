@@ -1,5 +1,5 @@
 peer:
-  image: mongo:3.0
+  image: mongo:3.2
   stateful: true
   command: --replSet kontena --smallfiles
   instances: 3
