@@ -1,5 +1,7 @@
 # Weave Scope on Kontena
 
+![weave scope](images/screenshot.png)
+
 ## Deploy
 
 ```
