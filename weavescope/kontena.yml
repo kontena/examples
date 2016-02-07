@@ -1,0 +1,14 @@
+probe:
+  image: weaveworks/scope:0.12.0
+  privileged: true
+  net: host
+  pid: host
+  deploy:
+    strategy: daemon
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  tty: true
+  command: --probe.docker true --no-app %{project}-app
+app:
+  image: weaveworks/scope:0.12.0
+  command: --no-probe
