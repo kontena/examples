@@ -1,0 +1,28 @@
+app:
+  image: kontena/mattermost:2.1
+  stateful: true
+  ports:
+    - 80:80
+  links:
+    - db:db
+  secrets:
+    - secret: MATTERMOST_MYSQL_PASSWORD
+      name: DATABASE_PASSWORD
+      type: env
+  environment:
+    - DATABASE_HOST=%{project}-db.kontena.local:3306
+    - DATABASE=mattermost_production
+    - DATABASE_USER=mmuser
+db:
+  image: mariadb:latest
+  stateful: true
+  secrets:
+    - secret: MATTERMOST_MYSQL_ROOT_PASSWORD
+      name: MYSQL_ROOT_PASSWORD
+      type: env
+    - secret: MATTERMOST_MYSQL_PASSWORD
+      name: MYSQL_PASSWORD
+      type: env
+  environment:
+    - MYSQL_USER=mmuser
+    - MYSQL_DATABASE=mattermost_production

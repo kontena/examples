@@ -1,0 +1,51 @@
+db:
+  image: kontena/lb:latest
+  instances: 2
+
+db-seed:
+  image: nevalla/galera-mariadb-10.0-xtrabackup:latest
+  stateful: true
+  command: seed
+  secrets:
+    - secret: GALERA_XTRABACKUP_PASSWORD
+      name: XTRABACKUP_PASSWORD
+      type: env
+    - secret: MATTERMOST_MYSQL_ROOT_PASSWORD
+      name: MYSQL_ROOT_PASSWORD
+      type: env
+    - secret: MATTERMOST_MYSQL_PASSWORD
+      name: MYSQL_PASSWORD
+      type: env
+  environment:
+    - MYSQL_USER=mmuser
+    - MYSQL_DATABASE=mattermost_production
+
+db-node:
+  image: nevalla/galera-mariadb-10.0-xtrabackup:latest
+  stateful: true
+  instances: 3
+  command: "node %{project}-db-seed.kontena.local,%{project}-db-node.kontena.local"
+  secrets:
+    - secret: GALERA_XTRABACKUP_PASSWORD
+      name: XTRABACKUP_PASSWORD
+      type: env
+  environment:
+    - KONTENA_LB_MODE=tcp
+    - KONTENA_LB_BALANCE=leastconn
+    - KONTENA_LB_INTERNAL_PORT=3306
+    - KONTENA_LB_EXTERNAL_PORT=3306
+
+
+app:
+  image: kontena/mattermost:2.1
+  stateful: true
+  ports:
+    - 80:80
+  secrets:
+    - secret: MATTERMOST_MYSQL_PASSWORD
+      name: DATABASE_PASSWORD
+      type: env
+  environment:
+    - DATABASE_HOST=%{project}-db.kontena.local:3306
+    - DATABASE=mattermost_production
+    - DATABASE_USER=mmuser
