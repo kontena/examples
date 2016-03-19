@@ -7,7 +7,6 @@
 Write secrets to [Kontena Vault](http://www.kontena.io/docs/using-kontena/vault):
 
 ```
-$ kontena vault write GALERA_XTRABACKUP_PASSWORD "top_secret"
 $ kontena vault write MATTERTMOST_MYSQL_ROOT_PASSWORD "top_secret"
 $ kontena vault write MATTERTMOST_MYSQL_PASSWORD "mostest"
 ```
@@ -20,7 +19,15 @@ $ kontena app deploy
 
 This will deploy one instance of Mattermost application with single MariaDB database.
 
-If you want to deploy Mattermost application with MariaDB Galera Cluster, provision first three nodes, get [kontena-cluster.yml](./kontena-cluster.yml) and finally run command
+### Mattermost with MariaDB Galera Cluster
+
+If you want to deploy Mattermost application with MariaDB Galera Cluster, please provision first three nodes. Then write GALERA_XTRABACKUP_PASSWORD to Vault:
+
+```
+$ kontena vault write GALERA_XTRABACKUP_PASSWORD "top_secret"
+```
+
+After that get [kontena-cluster.yml](./kontena-cluster.yml) and finally run command
 
 ```
 $ kontena app deploy -f kontena-cluster.yml
