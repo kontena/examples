@@ -4,8 +4,9 @@
 
 mkdir -p web/static/js
 
+#panic: Failed to open sql connection dial tcp: getsockopt: connection refused
+sleep 10
 # ------------------------
-echo starting platform
-erb /config_docker.json.erb > /config_docker.json
+echo "Starting platform"
 cd /mattermost/bin
-./platform -config=/config_docker.json
+./platform

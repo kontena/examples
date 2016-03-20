@@ -7,8 +7,8 @@
 Write secrets to [Kontena Vault](http://www.kontena.io/docs/using-kontena/vault):
 
 ```
-$ kontena vault write MATTERTMOST_MYSQL_ROOT_PASSWORD "top_secret"
-$ kontena vault write MATTERTMOST_MYSQL_PASSWORD "mostest"
+$ kontena vault write MATTERMOST_MYSQL_ROOT_PASSWORD "top_secret"
+$ kontena vault write MATTERMOST_MYSQL_PASSWORD "mostest"
 ```
 
 After that you can deploy Mattermost simply by getting the [kontena.yml](./kontena.yml) file and running command:
@@ -31,6 +31,47 @@ After that get [kontena-cluster.yml](./kontena-cluster.yml) and finally run comm
 
 ```
 $ kontena app deploy -f kontena-cluster.yml
+```
+
+### Configure domain name
+
+To use some domain name with your Mattermost application, you can configure it in `kontena.yml`
+
+```
+app:
+  image: kontena/mattermost:2.1
+  ...
+  environment:
+    ...
+    - KONTENA_LB_INTERNAL_PORT=80
+    - KONTENA_LB_VIRTUAL_HOST=www.your-domain.com
+```
+
+### Install SSL Certificate
+
+SSL certificate can be configured to load balancer by setting SSL_CERTS environment variable. Recommended way to do this is by using Kontena Vault.
+
+```
+$ kontena vault write my_company_cert "$(cat cert.pem)"
+```
+
+Update `kontena.yml`
+
+```
+loadbalancer:
+  image: kontena/lb:latest
+  ports:
+    - 443:443
+  secrets:
+    - secret: my_company_cert
+      name: SSL_CERTS
+      type: env
+```
+
+Re-deploy load balancer
+
+```
+$ kontena app deploy loadbalancer
 ```
 
 ## About Kontena
