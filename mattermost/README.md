@@ -74,6 +74,16 @@ Re-deploy load balancer
 $ kontena app deploy loadbalancer
 ```
 
+## Customize example
+
+You can freely customize this example and build your own Docker image. See [kontena-devel.yml](./kontena-devel.yml). You can setup a [private registry](http://kontena.io/docs/using-kontena/image-registry) and [VPN access](http://kontena.io/docs/using-kontena/vpn-access) for your custom image build
+
+```
+$ kontena app build -f kontena-devel.yml
+$ kontena app deploy -f kontena-devel.yml
+```
+
+
 ## About Kontena
 
 [Kontena](http://www.kontena.io) is a new open source Docker platform including orchestration, service discovery, overlay networking and all the tools required to run your containerized workloads. Kontena is built to maximize developer happiness. It works on any cloud, it's easy to setup and super simple to use. [Give it a try](http://www.kontena.io/docs/getting-started/quick-start)! If you like it, please star it on [Github](https://github.com/kontena/kontena) and follow us on [Twitter](https://twitter.com/KontenaInc)!”
