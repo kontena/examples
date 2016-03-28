@@ -13,7 +13,7 @@ Building clustered Wordpress environment with [Kontena](http://www.kontena.io).
 4. Update btsync secret key in `kontena.yml`
 5. Run `$ kontena app deploy`
 
-See also [simple Wordpress demo](https://github.com/kontena/examples/wordpress).
+See also [simple Wordpress demo](https://github.com/kontena/examples/tree/master/wordpress).
 
 ## License
 Kontena software is open source, and you can use it for any purpose, personal or commercial. Kontena is licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE) for full
