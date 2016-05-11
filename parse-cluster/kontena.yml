@@ -26,7 +26,7 @@ server:
   image: kontena/parse-server:latest
   instances: 3
   environment:
-    - MONGO_URI=%{project}-mongodb.kontena.local/production
+    - MONGO_URI=mongodb://%{project}-mongodb-1.kontena.local,%{project}-mongodb-2.kontena.local,%{project}-mongodb-3.kontena.local/production?slaveOk=true
     - KONTENA_LB_INTERNAL_PORT=8080
   secrets:
     - secret: PARSE_MASTER_KEY
@@ -40,10 +40,10 @@ server:
 
 loadbalancer:
   image: kontena/lb:latest
-  instances: 2
+  deploy:
+    strategy: daemon
   ports:
     - 80:80
-    - 443:443
   secrets:
     - secret: PARSE_SERVER_CERT
       name: SSL_CERTS
