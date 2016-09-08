@@ -15,6 +15,9 @@ $ kontena app deploy
 This will deploy 3 node Elasticsearch cluster across nodes in your grid. If you need to scale higher,
 just change the `instances` variable in `kontena.yml` and redeploy.
 
+## Accessing Elasticsearch Cluster
+
+Elasticsearch cluster can be accessed via `elasticsearch-node.kontena.local` dns-address from other services in the same grid or via [Kontena VPN](http://www.kontena.io/docs/using-kontena/vpn-access).
 
 ## About Kontena
 
