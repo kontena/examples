@@ -1,0 +1,10 @@
+version: "2"
+name: elasticsearch
+services:
+  node:
+    image: elasticsearch:2.4
+    stateful: true
+    instances: 3
+    command: elasticsearch -Des.cluster.name=kontena-es -Des.discovery.zen.minimum_master_nodes=2 -Des.discovery.zen.ping.unicast.hosts=elasticsearch-node-1,elasticsearch-node-2,elasticsearch-node-3
+    environment:
+      - ES_HEAP_SIZE=512m
