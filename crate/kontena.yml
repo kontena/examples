@@ -1,0 +1,10 @@
+version: "2"
+name: crate
+services:
+  node:
+    image: crate:0.55
+    stateful: true
+    instances: 3
+    command: -Des.cluster.name=crate-cluster -Ddiscovery.zen.minimum_master_nodes=2
+    environment:
+      - CRATE_HEAP_SIZE=512m
