@@ -1,6 +1,6 @@
 # Minio Cloud Storage on Kontena
 
-Store photos, videos, VMs, containers, log files, or any blob of data as objects.
+[Minio](https://minio.io/) is an object storage server built for cloud application developers and devops.
 
 ## Deploy
 
@@ -22,7 +22,7 @@ $ mc cat myminio/docker/Docker.md
 ```
 
 ### Adding Load balancer to front of Minio Cloud Storage
-Please refer [Kontena Load Balancer guide] how to add load balancer and terminate SSL certificate on load balancer.
+Please refer [Kontena Load Balancer guide](https://www.kontena.io/docs/using-kontena/loadbalancer) how to add load balancer and terminate SSL certificate.
 
 ## About Kontena
 
