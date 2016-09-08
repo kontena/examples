@@ -1,0 +1,15 @@
+version: '2'
+services:
+  server:
+    stateful: true
+    image: minio/minio
+    command: /export
+    ports:
+      - 9000:9000
+    secrets:
+      - secret: MINIO_ACCESS_KEY
+        name: MINIO_ACCESS_KEY
+        type: env
+      - secret: MINIO_SECRET_KEY
+        name: MINIO_SECRET_KEY
+        type: env
