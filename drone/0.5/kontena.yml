@@ -1,0 +1,54 @@
+version: '2'
+name: drone
+
+services:
+  server:
+    image: drone/drone:0.5
+    instances: 1
+    stateful: true
+    deploy:
+      strategy: ha
+      wait_for_port: 80
+    ports:
+      - 8080:80
+    environment:
+      - DRONE_DEBUG=true
+      - DRONE_GITHUB=true
+      - DRONE_SERVER_ADDR=0.0.0.0:80
+      - DRONE_OPEN=true
+      - DATABASE_DRIVER=sqlite3
+      - DATABASE_CONFIG=/var/lib/drone/drone.sqlite
+    secrets:
+      - secret: DRONE_GITHUB_CLIENT_ID
+        name: DRONE_GITHUB_CLIENT
+        type: env
+      - secret: DRONE_GITHUB_CLIENT_SECRET
+        name: DRONE_GITHUB_SECRET
+        type: env
+      - secret: DRONE_SHARED_SECRET
+        name: DRONE_AGENT_SECRET
+        type: env
+      - secret: DRONE_ADMIN_USERNAMES
+        name: DRONE_ADMIN
+        type: env
+    volumes:
+      - /var/lib/drone
+
+  agent:
+    image: drone/drone:0.5
+    stateful: no
+    instances: 3
+    deploy:
+      strategy: ha
+    depends_on:
+      - server
+    environment:
+      - DRONE_DEBUG=true
+      - DRONE_SERVER=http://%{project}-server:80
+    secrets:
+      - secret: DRONE_SHARED_SECRET
+        name: DRONE_SECRET
+        type: env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: agent
