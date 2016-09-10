@@ -44,6 +44,7 @@ loadbalancer:
     strategy: daemon
   ports:
     - 80:80
+    - 443:443
   secrets:
     - secret: PARSE_SERVER_CERT
       name: SSL_CERTS
