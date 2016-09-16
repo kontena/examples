@@ -1,0 +1,40 @@
+version: '2'
+name: redis-sentinel
+services:
+  node:
+    image: redis:3.0-alpine
+    instances: 5
+    stateful: true
+    environment:
+      KONTENA_LB_MODE: tcp
+      KONTENA_LB_EXTERNAL_PORT: 6379
+      KONTENA_LB_INTERNAL_PORT: 6379
+      KONTENA_LB_CUSTOM_SETTINGS: |
+        option tcp-check
+        tcp-check connect
+        tcp-check send PING\r\n
+        tcp-check expect string +PONG
+        tcp-check send info\ replication\r\n
+        tcp-check expect string role:master
+        tcp-check send QUIT\r\n
+        tcp-check expect string +OK
+    links:
+      - lb
+
+  monitor:
+    image: kontena/redis-sentinel:3.0-alpine
+    instances: 5
+    stateful: true
+    environment:
+      - MASTER_NAME=mymaster
+      - QUORUM=3
+      - DOWN_AFTER=5000
+      - FAILOVER_TIMEOUT=30000
+      - MASTER=redis-sentinel-node-1
+      - SLAVES=redis-sentinel-node-2;redis-sentinel-node-3;redis-sentinel-node-4;redis-sentinel-node-5
+    depends_on:
+      - node
+
+  lb:
+    image: kontena/lb:latest
+    instances: 2
