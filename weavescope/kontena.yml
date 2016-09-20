@@ -11,7 +11,7 @@ services:
     command: --probe.docker=true --weave=false --no-app %{project}-app.kontena.local:4040
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/run/scope/plugins:/var/run/scope/plugins
+      - /var/run/scope/plugins
     depends_on:
       - app
   app:
