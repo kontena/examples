@@ -1,13 +1,19 @@
-probe:
-  image: weaveworks/scope:0.12.0
-  privileged: true
-  net: host
-  pid: host
-  deploy:
-    strategy: daemon
-  command: --probe.docker true --no-app %{project}-app
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-app:
-  image: weaveworks/scope:0.12.0
-  command: --no-probe
+name: weavescope
+version: 2
+services:
+  probe:
+    image: weaveworks/scope:0.17.1
+    privileged: true
+    network_mode: host
+    pid: host
+    deploy:
+      strategy: daemon
+    command: --probe.docker=true --weave=false --no-app %{project}-app.kontena.local:4040
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/scope/plugins:/var/run/scope/plugins
+    depends_on:
+      - app
+  app:
+    image: weaveworks/scope:0.17.1
+    command: --no-probe --weave=false
